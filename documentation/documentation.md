@@ -462,4 +462,6 @@ Run DAVx5. Create a new account on it with an e-mail address as the DAVx5 accoun
 
 - <https://docs.nextcloud.com/server/14/user_manual/pim/sync_android.html>
 
+![](../media/2019-01-23T0737Z.png)
+
 ![](../media/2019-01-29T1727Z.png)

@@ -292,12 +292,55 @@ Restart Apache.
 systemctl start apache2
 ```
 
+## trash, file versions, cleanup
+
+The file versions storage is configured in `config.php` in a way like the following:
+
+```PHP
+'versions_retention_obligation' => 'auto',
+```
+
+Additional options are as follows:
+
+|**option**|**details**                                                                                                      |
+|----------|-----------------------------------------------------------------------------------------------------------------|
+|`D, auto` |Keep versions at least for D days, apply expiration rules to all versions that are older than D days.            |
+|`auto, D` |Delete all versions that are older than D days automatically, delete other versions according to expiration rules|
+|`D1, D2`  |Keep versions for at least D1 days and delete when they exceed D2 days.                                          |
+|`disabled`|Disable Versions; no files will be deleted.                                                                      |
+
+Trash can be deleted from the terminal in the following way:
+
+```Bash
+root@www.example.org:~$ su www-data -s /bin/bash
+www-data@www.example.org:~$ cd /var/www/nextcloud
+www-data@www.example.org:~/nextcloud$ php occ trashbin:cleanup --all-users
+Remove deleted files for all users
+Remove deleted files for users on backend Database
+   ncadmin
+   user1
+   user2
+```
+
+Old versions of files can be deleted from the terminal in the following way:
+
+```Bash
+root@www.example.org:~$ su www-data -s /bin/bash
+www-data@www.example.org:~$ cd /var/www/nextcloud
+www-data@www.example.org:~/nextcloud$ php occ files:cleanup
+Delete all versions
+Delete versions for users on backend Database
+   ncadmin
+   user1
+   user2
+```
+
 ## Where is Nextcloud on the server? What are the important directories?
 
 The structure of the database directory is of the following form:
 
 ```Bash
-root@gs:/home/nextcloud_data# ls -al
+root@www.example.org:/home/nextcloud_data# ls -al
 total 36932
 drwxrwx---  6 www-data www-data     4096 Nov  9 05:08 .
 drwxr-xr-x  9 root     root         4096 Nov  9 04:18 ..
@@ -314,7 +357,7 @@ drwxr-xr-x  7 www-data www-data     4096 Nov 11 05:13 username_1
 The structure of the Nextcloud server code directory is of the following form:
 
 ```Bash
-root@gs:/var/www/nextcloud# ls -al
+root@www.example.org:/var/www/nextcloud# ls -al
 total 168
 drwxr-xr-x 15 www-data www-data  4096 Jan 22 03:09 .
 drwxr-xr-x  4 root     root      4096 Nov  9 04:17 ..
